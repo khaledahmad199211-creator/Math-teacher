@@ -1,0 +1,1086 @@
+<!--
+================================================================
+  المختبر التفاعلي المطور - قواعد الإشارات والعمليات الرياضية
+  إعداد الأستاذ: صالح محمد
+  المؤسسة: متوسطة المقداد بن عمرو للبنين
+================================================================
+-->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>المختبر التفاعلي - الإشارات الرياضية</title>
+    <!-- خطوط عربية فاخرة -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@600;700&family=Cairo:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            padding: 12px;
+            padding-bottom: 280px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #ffffff;
+            color: #1e293b;
+            border-radius: 22px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 2px solid #e2e8f0;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: #ffffff;
+            padding: 16px 12px;
+            border-radius: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.2);
+        }
+
+        h1 {
+            font-size: 1.15rem;
+            margin-bottom: 4px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: #bfdbfe;
+            font-weight: 700;
+        }
+
+        /* شارة الاسم الكلاسيكية الاحترافية */
+        .teacher-badge {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 2px solid #16a34a;
+            color: #166534;
+            text-align: center;
+            padding: 12px;
+            border-radius: 16px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+
+        .teacher-name-kufi {
+            font-family: 'Reem Kufi', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #15803d;
+        }
+
+        .school-name-sub {
+            font-size: 0.85rem;
+            color: #166534;
+            font-weight: 800;
+        }
+
+        /* حركية الوميض الخاصة بزر القواعد (Vibrant Pulse) */
+        @keyframes rulesGlowPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+                border-color: #3b82f6;
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 8px 22px rgba(37, 99, 235, 0.45);
+                border-color: #1d4ed8;
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+                border-color: #3b82f6;
+            }
+        }
+
+        /* زر القواعد المبهج بالوميض التفاعلي */
+        .rules-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            color: #1e40af;
+            border: 2.5px solid #3b82f6;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            animation: rulesGlowPulse 2.2s infinite ease-in-out;
+            transition: all 0.2s;
+        }
+
+        .rules-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* نافذة القواعد المرتبة */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: #ffffff;
+            border: 2.5px solid #1e3a8a;
+            border-radius: 20px;
+            max-width: 460px;
+            width: 100%;
+            padding: 20px;
+            color: #1e293b;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 12px;
+            margin-bottom: 14px;
+        }
+
+        .modal-header h3 {
+            color: #1e3a8a;
+            font-size: 1.15rem;
+            font-weight: 900;
+        }
+
+        .close-modal {
+            background: #dc2626;
+            color: white;
+            border: none;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+        }
+
+        .rule-card-box {
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-right: 5px solid #2563eb;
+            padding: 14px;
+            border-radius: 12px;
+            margin-bottom: 14px;
+        }
+
+        .rule-card-box h4 {
+            font-size: 1rem;
+            color: #1e40af;
+            margin-bottom: 8px;
+            font-weight: 900;
+        }
+
+        .rule-point {
+            font-size: 0.88rem;
+            color: #334155;
+            line-height: 1.8;
+            margin-bottom: 8px;
+            padding: 8px 10px;
+            background: #ffffff;
+            border-radius: 8px;
+            border-right: 3px solid #16a34a;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* زر الإغلاق في نهاية الصندوق */
+        .modal-footer-btn {
+            width: 100%;
+            padding: 12px;
+            background: #475569;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            margin-top: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(71, 85, 105, 0.2);
+        }
+        .modal-footer-btn:active {
+            background: #334155;
+        }
+
+        .notice-box {
+            background: #f0fdf4;
+            border: 1.5px solid #bbf7d0;
+            border-right: 5px solid #16a34a;
+            color: #166534;
+            padding: 12px 14px;
+            border-radius: 14px;
+            margin-bottom: 16px;
+            font-size: 0.88rem;
+            line-height: 1.7;
+            font-weight: 700;
+        }
+
+        .section-tag {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #ffffff;
+            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin: 18px 0 12px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        /* كارت السؤال */
+        .card {
+            background: #ffffff;
+            border: 2px solid #cbd5e1;
+            border-radius: 18px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+
+        .card.active {
+            border-color: #2563eb;
+            background: #f8fafc;
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.12);
+        }
+
+        .card.locked {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+            opacity: 0.95;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            background: #f1f5f9;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 1.5px solid #cbd5e1;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .q-title {
+            font-weight: 900;
+            font-size: 0.95rem;
+            color: #1e293b;
+        }
+
+        .math-expr {
+            direction: ltr !important;
+            unicode-bidi: isolate !important;
+            display: inline-block;
+            font-family: 'Consolas', monospace;
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #0f172a;
+            background: #ffffff;
+            padding: 3px 10px;
+            border-radius: 8px;
+            border: 1.5px solid #94a3b8;
+        }
+
+        /* صندوق إدخال الحل */
+        .input-display {
+            width: 100%;
+            height: 50px;
+            background: #f8fafc; 
+            border: 2px solid #cbd5e1; 
+            border-radius: 14px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            text-align: center;
+            direction: ltr !important;
+            line-height: 44px;
+            color: #64748b;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .input-display.active-input {
+            border: 2.5px solid #2563eb !important;
+            background: #eff6ff !important;
+            color: #1d4ed8 !important;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.25) !important;
+        }
+
+        .btn-card-confirm {
+            width: 100%;
+            height: 42px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-card-confirm:active {
+            transform: scale(0.98);
+        }
+
+        .btn-card-confirm:disabled {
+            background: #cbd5e1;
+            color: #64748b;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* صندوق التصحيح */
+        .feedback {
+            margin-top: 14px;
+            padding: 14px;
+            border-radius: 14px;
+            font-size: 0.88rem;
+            display: none;
+            line-height: 1.9;
+            font-weight: 700;
+            direction: rtl;
+            text-align: right;
+        }
+
+        .feedback.correct {
+            display: block;
+            background: #f0fdf4;
+            color: #166534;
+            border: 2px solid #bbf7d0;
+        }
+
+        .feedback.wrong {
+            display: block;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 2px solid #fecaca;
+        }
+
+        .fb-row {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .fb-math-line {
+            display: block;
+            direction: ltr !important;
+            unicode-bidi: isolate !important;
+            text-align: left;
+            font-family: 'Consolas', monospace;
+            font-size: 1.15rem;
+            font-weight: 900;
+            background: #ffffff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            margin: 8px 0;
+            color: #0f172a;
+        }
+
+        .fb-rule-container {
+            background: #ffffff;
+            border: 1.5px solid #cbd5e1;
+            border-right: 5px solid #2563eb;
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .fb-rule-title {
+            font-weight: 900;
+            color: #1e40af;
+            margin-bottom: 6px;
+        }
+
+        .fb-rule-math {
+            font-family: 'Consolas', monospace;
+            font-size: 1.1rem;
+            font-weight: 900;
+            direction: ltr !important;
+            unicode-bidi: isolate !important;
+            text-align: left;
+            color: #0f172a;
+        }
+
+        .fb-comparison-divider {
+            border: 0;
+            border-top: 2px dashed #cbd5e1;
+            margin: 14px 0;
+        }
+
+        .fb-comparison-section {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            font-size: 0.88rem;
+            color: #334155;
+            line-height: 1.8;
+        }
+
+        .fb-comp-desc {
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 6px;
+            line-height: 1.6;
+        }
+
+        /* لوحة النتائج النهائية */
+        .result-banner {
+            display: none;
+            background: #ffffff;
+            border: 3px solid #1e3a8a;
+            border-radius: 20px;
+            padding: 22px;
+            text-align: center;
+            margin-top: 22px;
+            box-shadow: 0 15px 35px rgba(30, 58, 138, 0.15);
+        }
+
+        .result-banner h2 {
+            color: #1e3a8a;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            font-weight: 900;
+        }
+
+        .score-circle {
+            font-size: 2.3rem;
+            font-weight: 900;
+            color: #15803d;
+            background: #f0fdf4;
+            border: 4px solid #16a34a;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px auto;
+            box-shadow: 0 6px 20px rgba(22, 163, 74, 0.2);
+        }
+
+        .motivation-msg {
+            font-size: 1rem;
+            color: #334155;
+            line-height: 1.8;
+            font-weight: 800;
+            margin-top: 12px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1.5px solid #cbd5e1;
+        }
+
+        /* لوحة المفاتيح السفلية */
+        .keypad-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 12px;
+            box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.12);
+            border-top: 2.5px solid #cbd5e1;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            z-index: 1000;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        .keypad-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px;
+        }
+
+        .key-btn {
+            height: 44px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            color: #0f172a;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 1.15rem;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            transition: all 0.15s;
+        }
+
+        .key-btn:active {
+            background: #e2e8f0;
+            transform: scale(0.94);
+        }
+
+        .key-btn.neg-btn {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            color: #991b1b;
+            border-color: #f87171;
+            font-size: 0.9rem;
+        }
+
+        .key-btn.pos-btn {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            color: #0369a1;
+            border-color: #38bdf8;
+            font-size: 0.9rem;
+        }
+
+        .key-btn.del-btn {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            color: #b45309;
+            border-color: #fbbf24;
+            font-size: 0.95rem;
+        }
+
+        .btn-retry {
+            width: 100%;
+            height: 46px;
+            font-size: 1.05rem;
+            font-weight: 900;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #475569 0%, #334155 100%);
+            color: white;
+            margin-top: 16px;
+            box-shadow: 0 4px 15px rgba(51, 65, 85, 0.25);
+            transition: all 0.2s;
+        }
+        .btn-retry:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="main-app">
+    <header>
+        <h1>المختبر التفاعلي للإشارات الرياضية</h1>
+        <div class="subtitle">20 سؤالاً تفاعلياً لفهم وتطبيق قواعد العمليات</div>
+    </header>
+
+    <!-- شارة الاسم الكلاسيكية -->
+    <div class="teacher-badge" id="author-brand">
+        <div class="teacher-name-kufi">الأستاذ صالح محمد</div>
+        <div class="school-name-sub">متوسطة المقداد بن عمرو للبنين</div>
+    </div>
+
+    <!-- زر قواعد الإشارات مع الوميض النابض -->
+    <button class="rules-btn" onclick="openRulesModal()">
+        📖 اضغط هنا لمراجعة قواعد الإشارات (جمع وضرب)
+    </button>
+
+    <div class="notice-box">
+        💡 <strong>إرشاد:</strong> انقر على صندوق الحل ليتحول إلى الأزرق ويظهر لك نص <strong>أدخل الناتج</strong>، ثم استخدم لوحة المفاتيح.
+    </div>
+
+    <div id="quiz-list"></div>
+
+    <!-- لوحة النتيجة النهائية -->
+    <div class="result-banner" id="resultBanner">
+        <h2>🎉 نتيجة الاختبار النهائي</h2>
+        <div class="score-circle" id="finalScoreDisplay">0 / 20</div>
+        <div class="motivation-msg" id="motivationText"></div>
+    </div>
+
+    <button class="btn-retry" onclick="initQuiz()">🔄 إعادة المحاولة بأسئلة جديدة</button>
+</div>
+
+<!-- نافذة القواعد المرتبة مع زر إغلاق سفلي -->
+<div class="modal-overlay" id="rulesModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>📖 قواعد الإشارات الشاملة (جمع وضرب)</h3>
+            <button class="close-modal" onclick="closeRulesModal()">✕</button>
+        </div>
+
+        <div class="rule-card-box">
+            <h4>➕ أولاً: قواعد الجمع والطرح</h4>
+            <div class="rule-point">
+                1. <strong>سالب مع سالب:</strong> نجمع الأرقام ونضع إشارة السالب.<br>
+                مثال: <span class="math-expr">-2 - 3 = -5</span>
+            </div>
+            <div class="rule-point">
+                2. <strong>موجب مع موجب:</strong> نجمع الأرقام ونضع إشارة الموجب.<br>
+                مثال: <span class="math-expr">2 + 3 = 5</span>
+            </div>
+            <div class="rule-point">
+                3. <strong>مختلفة الإشارة:</strong> نطرح الصغير من الكبير ونأخذ إشارة الأكبر.<br>
+                مثال: <span class="math-expr">-2 + 3 = 1</span>
+            </div>
+        </div>
+
+        <div class="rule-card-box">
+            <h4>✖️ ثانياً: قواعد الضرب (بالرموز والأمثلة)</h4>
+            <div class="rule-point">
+                • <strong>(-) × (-) = (+)</strong> (سالب في سالب يعطي موجب)<br>
+                مثال: <span class="math-expr">-2 × -3 = 6</span>
+            </div>
+            <div class="rule-point">
+                • <strong>(+) × (+) = (+)</strong> (موجب في موجب يعطي موجب)<br>
+                مثال: <span class="math-expr">2 × 3 = 6</span>
+            </div>
+            <div class="rule-point">
+                • <strong>(+) × (-) = (-)</strong> (موجب في سالب يعطي سالب)<br>
+                مثال: <span class="math-expr">2 × -3 = -6</span>
+            </div>
+            <div class="rule-point">
+                • <strong>(-) × (+) = (-)</strong> (سالب في موجب يعطي سالب)<br>
+                مثال: <span class="math-expr">-2 × 3 = -6</span>
+            </div>
+        </div>
+
+        <!-- زر الإغلاق السفلي -->
+        <button class="modal-footer-btn" onclick="closeRulesModal()">إغلاق القواعد ✓</button>
+    </div>
+</div>
+
+<!-- لوحة المفاتيح السفلية المبهجة -->
+<div class="keypad-container">
+    <div class="keypad-grid">
+        <button class="key-btn" onclick="pressKey('3')">3</button>
+        <button class="key-btn" onclick="pressKey('2')">2</button>
+        <button class="key-btn" onclick="pressKey('1')">1</button>
+        <button class="key-btn neg-btn" onclick="pressSign('-')">- (سالب)</button>
+
+        <button class="key-btn" onclick="pressKey('6')">6</button>
+        <button class="key-btn" onclick="pressKey('5')">5</button>
+        <button class="key-btn" onclick="pressKey('4')">4</button>
+        <button class="key-btn pos-btn" onclick="pressSign('+')">+ (موجب)</button>
+
+        <button class="key-btn" onclick="pressKey('9')">9</button>
+        <button class="key-btn" onclick="pressKey('8')">8</button>
+        <button class="key-btn" onclick="pressKey('7')">7</button>
+        <button class="key-btn del-btn" onclick="pressDelete()">⌫ مسح</button>
+
+        <button class="key-btn" style="grid-column: span 4;" onclick="pressKey('0')">0 (صفر)</button>
+    </div>
+</div>
+
+<script>
+    // ==========================================
+    // 🛡️ الحماية الصامتة والخفية
+    // ==========================================
+    (function _silentIntegrity() {
+        function _verify() {
+            const el = document.getElementById('author-brand');
+            if (!el || !el.textContent.includes('صالح محمد') || !el.textContent.includes('المقداد بن عمرو')) {
+                document.body.innerHTML = '';
+                window.stop && window.stop();
+            }
+        }
+        setInterval(_verify, 600);
+    })();
+
+    document.addEventListener('contextmenu', function(e) { e.preventDefault(); }, false);
+    document.addEventListener('dragstart', function(e) { e.preventDefault(); }, false);
+
+    function openRulesModal() {
+        document.getElementById('rulesModal').style.display = 'flex';
+    }
+    function closeRulesModal() {
+        document.getElementById('rulesModal').style.display = 'none';
+    }
+
+    // ==========================================
+    // 📝 توليد الأسئلة مع معالجة دقيقة للصفر في المقارنات
+    // ==========================================
+    let questionsData = [];
+    let activeIdx = 0;
+
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generateQuestions() {
+        const list = [];
+
+        // --- القسم الأول: 4 أسئلة جمع وطرح ---
+        for (let i = 0; i < 4; i++) {
+            let a = getRandomInt(2, 6);
+            let b = a; // لضمان إعطاء ناتج صفر عند الطرح المتشابه لتدقيق الملاحظة التربوية
+            let isAddNeg = (i % 2 === 0);
+            let expr, correct, descHtml, compHtml;
+
+            if (isAddNeg) {
+                expr = `-${a} + ${a}`;
+                correct = 0;
+                descHtml = `الإشارات مختلفة، وبما أن العددين متعاكسين، فالناتج صفراً والصفر ليس له إشارة.`;
+                compHtml = `مقارنة مع الضرب (لو كانت ضرباً):<br><div class="fb-math-line">-${a} × ${a} = -${a * a}</div><div class="fb-comp-desc">الشرح: لأن ضرب سالب في موجب يعطي ناتجه سالباً، بينما في الجمع المتعاقد كان الناتج صفراً ليس له إشارة.</div>`;
+            } else {
+                expr = `-${a} - ${-a}` ; // للتنوع
+                let x = getRandomInt(2, 5);
+                let y = getRandomInt(3, 7);
+                expr = `-${x} + ${y}`;
+                correct = -x + y;
+                descHtml = `الإشارات مختلفة، نطرح الصغير من الكبير ونأخذ إشارة العدد الأكبر.`;
+                let compVal = -x * y;
+                let zeroCheckDesc = compVal === 0 ? "الناتج صفر، والصفر ليس له إشارة." : "حسب قاعدة ضرب الإشارات.";
+                compHtml = `مقارنة مع الضرب (لو كانت ضرباً):<br><div class="fb-math-line">-${x} × ${y} = ${compVal}</div><div class="fb-comp-desc">الشرح: ${zeroCheckDesc}</div>`;
+            }
+
+            list.push({
+                cat: 'القسم الأول: جمع وطرح (4 أسئلة)',
+                title: `السؤال ${i + 1}:`,
+                expr: expr,
+                correct: correct,
+                userVal: '',
+                locked: false,
+                hasMultRule: false,
+                multRuleStr: '',
+                descHtml: descHtml,
+                compHtml: compHtml
+            });
+        }
+
+        // --- القسم الثاني: 4 أسئلة ضرب ---
+        for (let i = 0; i < 4; i++) {
+            let a = getRandomInt(2, 5);
+            let b = getRandomInt(3, 6);
+            let expr, correct, multRuleStr, descHtml, compHtml;
+
+            if (i === 0) {
+                expr = `-${a} × -${b}`;
+                correct = a * b;
+                multRuleStr = `(-) × (-) = (+)`;
+                descHtml = `في الضرب، سالب في سالب يعطي موجباً دائماً.`;
+                let sumVal = -a - b;
+                compHtml = `مقارنة مع الجمع (لو كانت جمعاً):<br><div class="fb-math-line">-${a} - ${b} = ${sumVal}</div><div class="fb-comp-desc">الشرح: بالجمع إذا كانت الإشارات متشابهة (سالب وسالب)، نجمع الأعداد وتظل الإشارة سالبة.</div>`;
+            } else if (i === 1) {
+                expr = `-${a} × ${b}`;
+                correct = -(a * b);
+                multRuleStr = `(-) × (+) = (-)`;
+                descHtml = `في الضرب، سالب في موجب يعطي سالباً دائماً.`;
+                let sumVal = -a + b;
+                let sumExplain = sumVal === 0 ? "الناتج صفر، والصفر ليس له إشارة." : (sumVal > 0 ? "طرحنا وأخذنا إشارة الأكبر (الموجب)." : "طرحنا وأخذنا إشارة الأكبر (السالب).");
+                compHtml = `مقارنة مع الجمع (لو كانت جمعاً):<br><div class="fb-math-line">-${a} + ${b} = ${sumVal}</div><div class="fb-comp-desc">الشرح: بالجمع إذا كانت الإشارات مختلفة، ${sumExplain}</div>`;
+            } else if (i === 2) {
+                expr = `${a} × -${b}`;
+                correct = -(a * b);
+                multRuleStr = `(+) × (-) = (-)`;
+                descHtml = `في الضرب، موجب في سالب يعطي سالباً دائماً.`;
+                let sumVal = a - b;
+                let sumExplain = sumVal === 0 ? "الناتج صفر، والصفر ليس له إشارة." : (sumVal > 0 ? "طرحنا وأخذنا إشارة الأكبر (الموجب)." : "طرحنا وأخذنا إشارة الأكبر (السالب).");
+                compHtml = `مقارنة مع الجمع (لو كانت جمعاً):<br><div class="fb-math-line">${a} - ${b} = ${sumVal}</div><div class="fb-comp-desc">الشرح: بالجمع اختلفت الإشارات، ${sumExplain}</div>`;
+            } else {
+                expr = `${a} × ${b}`;
+                correct = a * b;
+                multRuleStr = `(+) × (+) = (+)`;
+                descHtml = `موجب في موجب يعطي موجباً دائماً.`;
+                compHtml = `مقارنة مع الجمع (لو كانت جمعاً):<br><div class="fb-math-line">${a} + ${b} = ${a + b}</div><div class="fb-comp-desc">الشرح: نجمع الأعداد الموجبة العادية والإشارة تبقى موجبة دائماً.</div>`;
+            }
+
+            list.push({
+                cat: 'القسم الثاني: ضرب الإشارات (4 أسئلة)',
+                title: `السؤال ${i + 5}:`,
+                expr: expr,
+                correct: correct,
+                userVal: '',
+                locked: false,
+                hasMultRule: true,
+                multRuleStr: multRuleStr,
+                descHtml: descHtml,
+                compHtml: compHtml
+            });
+        }
+
+        // --- التدريبات الإضافية: 12 سؤالاً ---
+        for (let i = 0; i < 12; i++) {
+            let a = getRandomInt(2, 7);
+            let b = getRandomInt(3, 8);
+            let type = i % 4;
+            let expr, correct, hasMultRule, multRuleStr, descHtml, compHtml;
+
+            if (type === 0) {
+                expr = `-${a} - ${b}`;
+                correct = -a - b;
+                hasMultRule = false;
+                multRuleStr = '';
+                descHtml = `إشارات متشابهة بالجمع، نجمع ونضع إشارة السالب.`;
+                compHtml = `مقارنة مع الضرب (لو كانت ضرباً):<br><div class="fb-math-line">-${a} × -${b} = ${a * b}</div><div class="fb-comp-desc">الشرح: لأن الضرب يُحَوِّل سالب × سالب إلى موجب دائماً.</div>`;
+            } else if (type === 1) {
+                expr = `-${a} × -${b}`;
+                correct = a * b;
+                hasMultRule = true;
+                multRuleStr = `(-) × (-) = (+)`;
+                descHtml = `تطبيق قاعدة الضرب بالرموز المذكورة أعلاه.`;
+                compHtml = `مقارنة مع الجمع (لو كانت جمعاً):<br><div class="fb-math-line">-${a} - ${b} = ${-a - b}</div><div class="fb-comp-desc">الشرح: بالجمع نجمع الأعداد والمتشابه بالـسالب يظل ناتجه سالباً.</div>`;
+            } else if (type === 2) {
+                expr = `-${a} + ${b}`;
+                correct = -a + b;
+                hasMultRule = false;
+                multRuleStr = '';
+                let diffExplain = correct === 0 ? "الناتج صفر، والصفر ليس له إشارة." : "نطرح الصغير من الكبير ونأخذ إشارة الأكبر.";
+                descHtml = `إشارات مختلفة بالجمع، ${diffExplain}`;
+                compHtml = `مقارنة مع الضرب (لو كانت ضرباً):<br><div class="fb-math-line">-${a} × ${b} = -${a * b}</div><div class="fb-comp-desc">الشرح: لأن الضرب بين إشارات مختلفة ناتجه دائماً سالب.</div>`;
+            } else {
+                expr = `-${a} × ${b}`;
+                correct = -(a * b);
+                hasMultRule = true;
+                multRuleStr = `(-) × (+) = (-)`;
+                descHtml = `تطبيق قاعدة الضرب بالرموز المذكورة أعلاه.`;
+                let sumVal = -a + b;
+                let sumExplain = sumVal === 0 ? "الناتج صفر، والصفر ليس له إشارة." : (sumVal > 0 ? "طرحنا وأخذنا إشارة الأكبر (الموجب)." : "طرحنا وأخذنا إشارة الأكبر (السالب).");
+                compHtml = `مقارنة مع الجمع (لو كانت جمعاً):<br><div class="fb-math-line">-${a} + ${b} = ${sumVal}</div><div class="fb-comp-desc">الشرح: بالجمع بين إشارات مختلفة، ${sumExplain}</div>`;
+            }
+
+            list.push({
+                cat: 'التدريبات الإضافية الشاملة (12 سؤالاً)',
+                title: `السؤال ${i + 9}:`,
+                expr: expr,
+                correct: correct,
+                userVal: '',
+                locked: false,
+                hasMultRule: hasMultRule,
+                multRuleStr: multRuleStr,
+                descHtml: descHtml,
+                compHtml: compHtml
+            });
+        }
+
+        return list;
+    }
+
+    function initQuiz() {
+        questionsData = generateQuestions();
+        activeIdx = 0;
+        document.getElementById('resultBanner').style.display = 'none';
+        renderQuiz();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function renderQuiz() {
+        const container = document.getElementById('quiz-list');
+        container.innerHTML = '';
+
+        let currentCat = '';
+
+        questionsData.forEach((q, idx) => {
+            if (q.cat !== currentCat) {
+                currentCat = q.cat;
+                const catEl = document.createElement('div');
+                catEl.className = 'section-tag';
+                catEl.innerText = currentCat;
+                container.appendChild(catEl);
+            }
+
+            const card = document.createElement('div');
+            card.className = `card ${idx === activeIdx ? 'active' : ''} ${q.locked ? 'locked' : ''}`;
+            card.id = `card-${idx}`;
+            card.onclick = () => { if (!q.locked) { activeIdx = idx; updateActiveStyles(); } };
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="q-title">${q.title}</span>
+                    <span class="math-expr">${q.expr}</span>
+                </div>
+                <div class="input-display ${idx === activeIdx && !q.locked ? 'active-input' : ''}" id="disp-${idx}">
+                    ${q.userVal !== '' ? q.userVal : (idx === activeIdx ? 'أدخل الناتج' : 'انقر هنا لإدخال الناتج')}
+                </div>
+                <button class="btn-card-confirm" id="btn-confirm-${idx}" ${q.locked ? 'disabled' : ''} onclick="confirmAnswer(${idx}); event.stopPropagation();">
+                    ${q.locked ? '✓ تم تأكيد الإجابة' : '✓ تأكيد الإجابة'}
+                </button>
+                <div class="feedback" id="fb-${idx}"></div>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    function updateActiveStyles() {
+        document.querySelectorAll('.card').forEach((c, idx) => {
+            if (idx === activeIdx) {
+                c.classList.add('active');
+            } else {
+                c.classList.remove('active');
+            }
+        });
+        document.querySelectorAll('.input-display').forEach((disp, idx) => {
+            if (idx === activeIdx && !questionsData[idx].locked) {
+                disp.classList.add('active-input');
+                if (questionsData[idx].userVal === '') {
+                    disp.innerText = 'أدخل الناتج';
+                }
+            } else {
+                disp.classList.remove('active-input');
+                if (questionsData[idx].userVal === '') {
+                    disp.innerText = 'انقر هنا لإدخال الناتج';
+                }
+            }
+        });
+    }
+
+    function pressKey(num) {
+        const q = questionsData[activeIdx];
+        if (q.locked) return;
+
+        if (q.userVal === '' || q.userVal === 'أدخل الناتج') q.userVal = '';
+        q.userVal += num;
+        document.getElementById(`disp-${activeIdx}`).innerText = q.userVal;
+    }
+
+    function pressSign(sign) {
+        const q = questionsData[activeIdx];
+        if (q.locked) return;
+
+        if (q.userVal === '' || q.userVal === 'أدخل الناتج') q.userVal = '';
+        if (sign === '-') {
+            if (!q.userVal.startsWith('-')) q.userVal = '-' + q.userVal;
+        } else {
+            if (q.userVal.startsWith('-')) q.userVal = q.userVal.substring(1);
+        }
+        document.getElementById(`disp-${activeIdx}`).innerText = q.userVal;
+    }
+
+    function pressDelete() {
+        const q = questionsData[activeIdx];
+        if (q.locked) return;
+
+        if (q.userVal === '' || q.userVal === 'أدخل الناتج') return;
+        q.userVal = q.userVal.slice(0, -1);
+        document.getElementById(`disp-${activeIdx}`).innerText = q.userVal === '' ? 'أدخل الناتج' : q.userVal;
+    }
+
+    function confirmAnswer(idx) {
+        const q = questionsData[idx];
+        if (q.locked) return;
+
+        const valStr = q.userVal.trim();
+        if (valStr === '' || valStr === 'أدخل الناتج' || valStr === '-') {
+            alert('يرجى إدخال الإجابة أولاً.');
+            return;
+        }
+
+        const val = parseFloat(valStr);
+        q.locked = true;
+
+        const card = document.getElementById(`card-${idx}`);
+        card.classList.remove('active');
+        card.classList.add('locked');
+        document.getElementById(`btn-confirm-${idx}`).disabled = true;
+
+        let ruleHtml = '';
+        if (q.hasMultRule) {
+            ruleHtml = `
+                <div class="fb-rule-container">
+                    <div class="fb-rule-title">قاعدة الضرب:</div>
+                    <div class="fb-rule-math">${q.multRuleStr}</div>
+                </div>
+            `;
+        }
+
+        const feedbackHtml = `
+            <div class="fb-row"><strong>${val === q.correct ? '✓ إجابة صحيحة وممتازة!' : '✗ إجابة غير صحيحة.'}</strong></div>
+            ${val !== q.correct ? `<div class="fb-row">الإجابة الصحيحة هي:</div><div class="fb-math-line">${q.correct}</div>` : ''}
+            ${ruleHtml}
+            <div class="fb-row">${q.descHtml}</div>
+            <hr class="fb-comparison-divider">
+            <div class="fb-comparison-section">${q.compHtml}</div>
+        `;
+
+        const fb = document.getElementById(`fb-${idx}`);
+        if (!isNaN(val) && val === q.correct) {
+            fb.className = 'feedback correct';
+            fb.innerHTML = feedbackHtml;
+        } else {
+            fb.className = 'feedback wrong';
+            fb.innerHTML = feedbackHtml;
+        }
+
+        let nextIdx = questionsData.findIndex((item, i) => i > idx && !item.locked);
+        if (nextIdx === -1) {
+            nextIdx = questionsData.findIndex(item => !item.locked);
+        }
+
+        if (nextIdx !== -1) {
+            activeIdx = nextIdx;
+            updateActiveStyles();
+        }
+
+        checkQuizCompletion();
+    }
+
+    function checkQuizCompletion() {
+        const allLocked = questionsData.every(q => q.locked);
+        if (allLocked) {
+            let correctCount = questionsData.filter(q => parseFloat(q.userVal) === q.correct).length;
+            let totalQuestions = questionsData.length;
+
+            const banner = document.getElementById('resultBanner');
+            const scoreDisp = document.getElementById('finalScoreDisplay');
+            const motivation = document.getElementById('motivationText');
+
+            scoreDisp.innerText = `${correctCount} / ${totalQuestions}`;
+
+            let percentage = (correctCount / totalQuestions) * 100;
+            if (percentage >= 80) {
+                motivation.innerHTML = `🌟 <strong>أداء ممتاز ورائع جداً!</strong> لقد أجبت على معظم الأسئلة بشكل صحيح. استمر هكذا وتألق دائماً يا بطل الرياضيات!`;
+            } else if (percentage >= 50) {
+                motivation.innerHTML = `👍 <strong>ناجح وممتاز!</strong> فهمك للقواعد جيد جداً، واصل التدريب وراجع أخطاءك لتصبح مبدعاً متألقاً.`;
+            } else {
+                motivation.innerHTML = `💪 <strong>أنت بطل وتستطيع!</strong> الرياضيات تحتاج إلى تدريب مستمر؛ أعد المحاولة من جديد واقْرأ القواعد بعناية وسترى كيف ستتطور!`;
+            }
+
+            banner.style.display = 'block';
+            banner.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    window.onload = initQuiz;
+</script>
+
+</body>
+</html>
